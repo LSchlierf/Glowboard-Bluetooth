@@ -35,8 +35,13 @@
 const float effect_increment = (pixel_density * wheel_diameter * 0.0314 / hall_resolution);
 
 int tempo[] = {0, 20, 20, 30, 40};
-int tempoincrement[] = {1, 1, 1, 1};
-
+int tempoincrement[] = {0, 3, 3, 3, 3};
+/*
+commands:
+00: new mode
+01: speed up
+02: slow down
+*/
 int modelookup[] = {0, 1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5};
 /*
 modes:
@@ -357,6 +362,17 @@ void readBluetooth() {
       mode = modelookup[Bluetooth.read()];
       tracking = (mode > 0);
       runAnimation();
+      break;
+
+    case 1: //speed up
+      tempo[abs(mode)] -= tempoincrement[abs(mode)];
+      if(tempo[abs(mode)] < 0){
+        tempo[abs(mode)] = 0;
+      }
+      break;
+    
+    case 2: //slow down
+      tempo[abs(mode)] += tempoincrement[abs(mode)];
       break;
 
   }
