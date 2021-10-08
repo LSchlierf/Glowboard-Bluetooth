@@ -34,15 +34,15 @@
 
 const float effect_increment = (pixel_density * wheel_diameter * 0.0314 / hall_resolution);
 
-int tempo[] = {0, 20, 20, 30, 40};
-int tempoincrement[] = {0, 3, 3, 3, 3};
+int tempo[] = {0, 20, 20, 30, 600, 40};
+int tempoincrement[] = {0, 3, 3, 3, 50, 3};
 /*
 commands:
 00: new mode
 01: speed up
 02: slow down
 */
-int modelookup[] = {0, 1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5};
+int modelookup[] = {0, 1, 2, 3, 4, 5, 6, -1, -2, -3, -5, -6, -4};
 /*
 modes:
 -5: off
@@ -165,7 +165,7 @@ void shortPress() {
   }
   else if (mode < 0) {
     mode--;
-    if (mode < -3) {
+    if (mode < -5) {
       mode = -1;
     }
   }
@@ -196,11 +196,11 @@ void runAnimation() {
   strip.clear();
   switch (mode) {
 
-    case -5: //off
+    case -6: //off
     
       break;
 
-    case -4: //strobe lights
+    case -5: //strobe lights
       	color++;
         if(color > 23){
           color = 0;
@@ -209,6 +209,23 @@ void runAnimation() {
           strip.fill(strip.Color(255, 255, 255));
         }
         break;
+
+    case -4: //weihnachten
+      direction = !direction;
+      //strip.fill(strip.Color(255, 0, 0));
+      for(int i = 0; i < LED_COUNT; i += 5){
+        if((i%10 == 0) == direction){
+          for(int j = 0; j < 5; j++){
+            strip.setPixelColor((i + j), strip.Color(255, 0, 0));
+          }
+        }
+        else {
+          for(int j = 0; j < 5; j++){
+            strip.setPixelColor((i + j), strip.Color(0, 255, 0));
+          }
+        }
+      }
+      break;
 
     case -3: //bouncing strip
 
