@@ -197,7 +197,7 @@ void runAnimation() {
   strip.clear();
   switch (mode) {
 
-    case -6: //off
+    case MODE_OFF: //off
     
       break;
 
