@@ -32,6 +32,8 @@
 
 //adjust the above values to fit your setup
 
+#define MODE_OFF -6
+
 const float effect_increment = (pixel_density * wheel_diameter * 0.0314 / hall_resolution);
 
 int tempo[] = {0, 20, 20, 30, 600, 40};
@@ -42,7 +44,6 @@ commands:
 01: speed up
 02: slow down
 */
-int modelookup[] = {0, 1, 2, 3, 4, 5, 6, -1, -2, -3, -5, -6, -4};
 /*
 modes:
 -5: off
@@ -165,7 +166,7 @@ void shortPress() {
   }
   else if (mode < 0) {
     mode--;
-    if (mode < -5) {
+    if (mode < (MODE_OFF + 1)) {
       mode = -1;
     }
   }
@@ -375,20 +376,29 @@ void drawStrip() {
 void readBluetooth() {
   switch(Bluetooth.read()){
 
-    case 0: //new mode
-      mode = modelookup[Bluetooth.read()];
-      tracking = (mode > 0);
+    case 0: //new tracking mode
+      mode = Bluetooth.read();
+      tracking = true;
       runAnimation();
       break;
 
-    case 1: //speed up
+    case 1: //new running mode
+      mode = 0 - Bluetooth.read();
+      tracking = false;
+      if(mode == 0) {
+        mode = MODE_OFF;
+      }
+      runAnimation();
+      break;
+
+    case 2: //speed up
       tempo[abs(mode)] -= tempoincrement[abs(mode)];
       if(tempo[abs(mode)] < 0){
         tempo[abs(mode)] = 0;
       }
       break;
     
-    case 2: //slow down
+    case 3: //slow down
       tempo[abs(mode)] += tempoincrement[abs(mode)];
       break;
 
