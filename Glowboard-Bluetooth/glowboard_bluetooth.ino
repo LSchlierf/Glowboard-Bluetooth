@@ -38,11 +38,15 @@ const float effect_increment = (pixel_density * wheel_diameter * 0.0314 / hall_r
 
 int tempo[] = {0, 20, 20, 30, 600, 40};
 int tempoincrement[] = {0, 3, 3, 3, 50, 3};
+int tempomin[] = {0};
+int tempomax[] = {0};
 /*
 commands:
-00: new mode
-01: speed up
-02: slow down
+00: new tracking mode
+01: new running mode
+02: speed up
+03: slow down
+04: custom speed setting
 */
 /*
 modes:
@@ -59,7 +63,7 @@ modes:
  5: highlight multi color
  6: highlight red & blue
 */
-int pixel0, pixel1, timer, progress, mode, lasttime, timepassed;
+int pixel0, pixel1, timer, progress, mode, lasttime, timepassed, newtempo;
 const int length = effect_length - 1;
 const int last = LED_COUNT - 1;
 const int slast = last - length;
@@ -183,7 +187,7 @@ void shortPress() {
 }
 
 void checkTime() {
-  if(mode == -5){
+  if(mode == MODE_OFF){
     return;
   }
   timepassed = millis() - lasttime;
@@ -373,6 +377,11 @@ void drawStrip() {
   }
 }
 
+int gettempo(int val) {
+
+  return newtempo;
+}
+
 void readBluetooth() {
   switch(Bluetooth.read()){
 
@@ -400,6 +409,10 @@ void readBluetooth() {
     
     case 3: //slow down
       tempo[abs(mode)] += tempoincrement[abs(mode)];
+      break;
+
+    case 4: //custom speed
+      tempo[abs(mode)] = gettempo(Bluetooth.read());
       break;
 
   }
