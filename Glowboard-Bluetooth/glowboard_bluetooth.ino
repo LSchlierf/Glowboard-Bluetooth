@@ -47,6 +47,7 @@ commands:
 02: speed up
 03: slow down
 04: custom speed setting
+05: set brightness
 */
 /*
 modes:
@@ -202,22 +203,20 @@ void runAnimation() {
   switch (mode) {
 
     case MODE_OFF: //off
-    
       break;
 
     case -5: //strobe lights
       	color++;
-        if(color > 23){
+        if(color > 5){
           color = 0;
         }
-        if(!(color%6) || !((color - 2)%6)){
+        if((color == 2) || (color == 4)){
           strip.fill(strip.Color(255, 255, 255));
         }
         break;
 
     case -4: //weihnachten
       direction = !direction;
-      //strip.fill(strip.Color(255, 0, 0));
       for(int i = 0; i < LED_COUNT; i += 5){
         if((i%10 == 0) == direction){
           for(int j = 0; j < 5; j++){
@@ -233,10 +232,8 @@ void runAnimation() {
       break;
 
     case -3: //bouncing strip
-
       color += 120;
       colorbuf = strip.ColorHSV(color);
-
       if (direction == true) {
         pixel0++;
         if ((pixel0 + length) > last - 1) {
@@ -249,85 +246,65 @@ void runAnimation() {
           direction = true;
         }
       }
-
       strip.fill(colorbuf, pixel0, effect_length);
-
       break;
 
     case -2: //unicolor rainbow
-
       color += 120;
       colorbuf = strip.ColorHSV(color);
       strip.fill(colorbuf);
-
       break;
 
     case -1: //running rainbow
-
       color += 120;
       for(int i = 0; i < LED_COUNT; i++){
         colorbuf = strip.ColorHSV((color + (i * increment)));
         strip.setPixelColor(i, colorbuf);
       }
-
       break;
 
     case 0: //Street lights
-
       colorbuf = strip.Color(255, 0, 0);
       strip.fill(colorbuf, 0, effect_length);
       colorbuf = strip.Color(255, 255, 255);
       strip.fill(colorbuf, slast, effect_length);
-
       break;
 
     case 1: //highlight red
-
       colorbuf = strip.Color(255, 0, 0);
       drawStrip();
-
       break;
 
     case 2: //highlight green
-
       colorbuf = strip.Color(0, 255, 0);
       drawStrip();
-
       break;
 
     case 3: //highlight blue
-
       colorbuf = strip.Color(0, 0, 255);
       drawStrip();
-
       break;
 
     case 4: //rainbow
-
       color = abs(position * 655.36);
       for(int i = 0; i < LED_COUNT; i++){
         colorbuf = strip.ColorHSV((color + (i * increment)));
         strip. setPixelColor((last - i), colorbuf);
       }
-
       break;
 
     case 5: //color changing highlights
-
       color += 120;
       colorbuf = strip.ColorHSV(color);
       drawStrip();
-
       break;
 
     case 6: //highlights blue & red
-      
       pixel0 = abs(position);
       pixel1 = pixel0 + length;
       if (pixel1 > limit) {
         pixel1 -= limit;
       }
-
       colorbuf = strip.Color(255, 0, 0);
       if (pixel0 < pixel1) {
         strip.fill(colorbuf, pixel0, effect_length);
@@ -335,7 +312,6 @@ void runAnimation() {
       else {
         strip.fill(colorbuf, 0, (pixel1 + 1));
       }
-
       pixel0 += LED_COUNT;
       if (pixel0 > limit) {
         pixel0 -= limit;
@@ -344,7 +320,6 @@ void runAnimation() {
       if (pixel1 > limit) {
         pixel1 -= limit;
       }
-
       colorbuf = strip.Color(0, 0, 255);
       if (pixel0 < pixel1) {
         strip.fill(colorbuf, pixel0, effect_length);
@@ -352,16 +327,12 @@ void runAnimation() {
       else {
         strip.fill(colorbuf, 0, (pixel1 + 1));
       }
-      
       break;
 
     default:
-
       mode = 0;
       runAnimation();
-
       break;
-
   }
   strip.show();
 }
@@ -415,5 +386,8 @@ void readBluetooth() {
       tempo[abs(mode)] = gettempo(Bluetooth.read());
       break;
 
+    case 5: //set brightness
+      strip.setBrightness(Bluetooth.read());
+      break;
   }
 }
