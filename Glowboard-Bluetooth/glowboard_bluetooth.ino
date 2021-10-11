@@ -118,23 +118,19 @@ void loop() {
         break;
       }
     }
-
     if (timer < 15) {
       shortPress();
     }
-
   }
 
   if (digitalRead(switch_pin) != switchmode) {
-
     if (mode != 0) {
       longPress(false);
       shortPress();
     }
     switchmode = digitalRead(switch_pin);
-
   }
-
+  
   if (mode < 0) {
     checkTime();
   }
@@ -349,7 +345,6 @@ void drawStrip() {
 }
 
 int gettempo(int val) {
-
   return newtempo;
 }
 
