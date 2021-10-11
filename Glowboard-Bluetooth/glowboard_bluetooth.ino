@@ -130,7 +130,7 @@ void loop() {
     }
     switchmode = digitalRead(switch_pin);
   }
-  
+
   if (mode < 0) {
     checkTime();
   }
@@ -197,7 +197,6 @@ void checkTime() {
 void runAnimation() {
   strip.clear();
   switch (mode) {
-
     case MODE_OFF: //off
       break;
 
@@ -350,7 +349,6 @@ int gettempo(int val) {
 
 void readBluetooth() {
   switch(Bluetooth.read()){
-
     case 0: //new tracking mode
       mode = Bluetooth.read();
       tracking = true;
