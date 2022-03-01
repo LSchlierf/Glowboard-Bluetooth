@@ -81,7 +81,7 @@ Here is a wiring diagram to illustrate all the mentioned connections:
 
 ![wiring diagram](https://i.imgur.com/Xy3EWLW.png)
 
-Most of the connections can be configured freely, see [below](#code-constants).
+Most of these connections can be configured freely, see [below](#code-constants).
 
 ---
 
@@ -134,7 +134,7 @@ This sets the length of the light effects, measured in pixels.
 ```c++
 #define effect_direction true
 ```
-This sets the direction that the ground tracking light effects are going to run. Unfortunately, I could only make the light effects work one way, so adjust this value to make the effects run is the direction you normally ride your longboard in. This also adjusts the positioning of the default mode.
+This sets the direction that the ground tracking light effects are going to run. Unfortunately, I could only make the light effects work one way, so adjust this value to make the effects run in the direction you normally ride your longboard in. This also adjusts the positioning of the default mode.
 
 ```c++
 #define pixel_density 60
