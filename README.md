@@ -41,8 +41,8 @@ I'm currently also working on adding functionality to both this code and the app
 ### Bluetooth support
 
 I wrote a companion app that can control the mode, brightness and speed of the LED setup.  
-It is based on Google's Flutter framework so it works with both iOS and Android.
-The source code can be found in my corresponding [GitHub repository](https://www.github.com/LSchlierf/).   TODO: add github link  
+Currently, there is only an Android version, however I am currently working on a Flutter version, which would work with both iOs and Android.  
+The source code can be found in my corresponding [GitHub repository](https://www.github.com/LSchlierf/Glowboard-App-Android).   
 You can find all the information on how to use the app there.
 
 ---
