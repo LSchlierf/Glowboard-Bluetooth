@@ -1,5 +1,7 @@
 # Ground-tracking LED animations for Longboards with Bluetooth support
 
+[![wakatime](https://wakatime.com/badge/user/ee0b2e88-680b-47cf-ba7c-afd0e1637329/project/fd3403ed-9d54-4074-bf71-3785127634e4.svg)](https://wakatime.com/badge/user/ee0b2e88-680b-47cf-ba7c-afd0e1637329/project/fd3403ed-9d54-4074-bf71-3785127634e4)
+
 This is the repository for my Glowboard Code with Bluetooth support. If you couldn't care less about Bluetooth, there is also a version without Bluetooth in [this repo of mine](https://www.github.com/LSchlierf/Glowboard).  
 That one was the first version I made.
 
