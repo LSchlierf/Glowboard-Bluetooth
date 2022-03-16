@@ -11,7 +11,7 @@ Here are some Imgur links to show what the finished project will look like:
 
 [Videos of the ground tracking effects](https://imgur.com/gallery/86cq9q0)
 
-[Videos of the animated effects]() TODO: add Imgur link
+[Videos of the animated effects](https://imgur.com/gallery/Y8oL3BI) (Epilepsy warning, flashy lights)
 
 [Videos of me riding the longboard](https://imgur.com/gallery/xfXjWVt)
 
@@ -35,16 +35,15 @@ There are also  four animated modes (technically five). These do not use wheel t
 The first four animated modes are: a running rainbow, a unicolor rainbow, a bouncing rainbow strip and a red & green Christmas mode (doesn't really look that great when the LEDs are facing the floor).  
 There is also a strobe light effect, though that one is disabled by default for safety reasons. See [Disclaimer](#disclaimer-epilepsy-warning).
 
-You can switch between ground tracking modes and animated modes using the hardware switch, and cycle through the respective modes using the hardware button. A short press (<1.5s) changes the mode, a long press (>=1.5s) turns the lights "off" to the deafault mode. This mode displays a white strip on the front and a red strip on the rear, which I like to use for traffic safety reasons. 
-This mode is also displayed on start up by default.
+You can switch between ground tracking modes and animated modes using the hardware switch, and cycle through the respective modes using the hardware button. A short press (<1.5s) changes the mode, a long press (>=1.5s) turns the lights "off" to the deafault mode. This mode displays a white strip on the front and a red strip on the rear, which I like to use for traffic safety reasons. This mode is also displayed on start up by default.
 
 I'm currently also working on adding functionality to both this code and the app to make it possible to directly set the color of the ground tracking mode.
 
 ### Bluetooth support
 
 I wrote a companion app that can control the mode, brightness and speed of the LED setup.  
-Currently, there is only an Android version, however I am currently working on a Flutter version, which would work with both iOs and Android.  
-The source code can be found in my corresponding [GitHub repository](https://www.github.com/LSchlierf/Glowboard-App-Android).   
+I wrote the app using Flutter, so it works with both Android and iOs
+The source code can be found in my corresponding [GitHub repository](https://github.com/LSchlierf/LED-Controller).  
 You can find all the information on how to use the app there.
 
 ---
@@ -54,7 +53,7 @@ You can find all the information on how to use the app there.
 ### General
 
 As mentioned before, the project uses an ESP-32 microcontroller as the brains.  
-On one wheel there are magnets that are read by a hall effect sensor (I use an OH137). This way, the microcontroller can notice when the wheel turns.   
+On one wheel there are magnets that are read by a hall effect sensor (I use an OH137). This way, the microcontroller can notice when the wheel turns.  
 Also connected to the microcontroller are one or more WS2812B LED strip(s in parallel).  
 Since all the components operate on 5V, I use a simple power bank mounted on the bottom my longboard for power. All the other electronics (except for the hall effect sensor obviously) are mounted on a Veroboard. This makes the main curcuitry sturdier and it makes it easier to connect all the components to the microcontroller and to power.
 
@@ -65,6 +64,7 @@ To switch the whole thing off, I added a power switch between the power bank and
 Whenever dealing with LED strips, it is recommended to use a 1000 μF capacitor across the main power lines, so add one from GND to Vdd. Watch out for polarity, negative goes to GND.
 
 You'll also need some resistors:  
+
 * A pull-up resistor on the hall effect sensor's data pin, I use 6KΩ.
 * A pull-down resistor on the buttons data pin, I use 6KΩ here as well.
 * A 470Ω resistor between the ESP-32 (pin 27 in my setup) and the LEDs' "din" pin.
@@ -92,6 +92,7 @@ Most of these connections can be configured freely, see [below](#code-constants)
 ### General
 
 The main loop of the microcontroller basically does three things:
+
 * Run the animation.  
 This includes checking the hall effect sensor if applicable, else checking the passed time for the animated modes, and updating the LEDs if necessary.
 * Check for Bluetooth input.  
@@ -106,36 +107,43 @@ At the top of the code, there are several constants to configure:
 ```c++
 #define button_pin 32
 ```
+
 This sets the ESP-32 pin the mode hardware button is connected to.
 
 ```c++
 #define switch_pin 15
 ```
+
 This sets the ESP-32 pin that the mode hardware switch is connected to.
 
 ```c++
 #define hall_pin 25
 ```
+
 This sets the ESP-32 pin that the hall effect sensor is connected to.
 
 ```c++
 #define led_pin 27
 ```
+
 This sets the ESP-32 pin connected to the data pin of the WS2812B strip.
 
 ```c++
 #define LED_COUNT 50
 ```
+
 This sets the number of pixels your LED strip has.
 
 ```c++
 #define effect_length 10 
 ```
+
 This sets the length of the light effects, measured in pixels.
 
 ```c++
 #define effect_direction true
 ```
+
 This sets the direction that the ground tracking light effects are going to run. Unfortunately, I could only make the light effects work one way, so adjust this value to make the effects run in the direction you normally ride your longboard in. This also adjusts the positioning of the default mode.
 
 ```c++
@@ -143,6 +151,7 @@ This sets the direction that the ground tracking light effects are going to run.
 #define wheel_diameter 7
 #define hall_resolution 8
 ```
+
 These three constants set the pixel density of your WS2812B strip (how many pixels per meter), the wheel diameter (in centimeters) and the hall resolution (how often the hall sensor updates per full rotation of the wheel) respectively.  
 These three values are used to calculate at compile time how far the light effect should move per hall effect sensor update.
 
