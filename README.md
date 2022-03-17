@@ -11,7 +11,7 @@ Here are some Imgur links to show what the finished project will look like:
 
 [Videos of the ground tracking effects](https://imgur.com/gallery/86cq9q0)
 
-[Videos of the animated effects](https://imgur.com/gallery/Y8oL3BI) (Epilepsy warning, flashing lights)
+[Videos of the animated effects](https://imgur.com/gallery/Y8oL3BI)
 
 [Videos of me riding the longboard](https://imgur.com/gallery/xfXjWVt)
 
