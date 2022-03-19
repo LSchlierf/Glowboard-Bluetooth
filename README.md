@@ -42,7 +42,7 @@ I'm currently also working on adding functionality to both this code and the app
 ### Bluetooth support
 
 I wrote a companion app that can control the mode, brightness and speed of the LED setup.  
-I wrote the app using Flutter, so it works with both Android and iOs
+I wrote the app using Flutter, so it works with both Android and iOs.
 The source code can be found in my corresponding [GitHub repository](https://github.com/LSchlierf/LED-Controller).  
 You can find all the information on how to use the app there.
 
